@@ -43,10 +43,14 @@ public final class HudOverlay {
             case TOP_LEFT, TOP_RIGHT -> PANEL_MARGIN;
             case BOTTOM_LEFT, BOTTOM_RIGHT -> Math.max(PANEL_MARGIN, guiHeight - panelHeight - PANEL_MARGIN);
         };
+        int panelAlpha = ClientHotkeys.hudOpacityAlpha();
+        int panelColor = (panelAlpha << 24);
+        int headerAlpha = Math.min(0xFF, panelAlpha + 0x44);
+        int headerColor = (headerAlpha << 24) | 0x202020;
 
         var gui = event.getGuiGraphics();
-        gui.fill(panelX, panelY, panelX + PANEL_WIDTH, panelY + panelHeight, 0x88000000);
-        gui.fill(panelX, panelY, panelX + PANEL_WIDTH, panelY + 10, 0xCC202020);
+        gui.fill(panelX, panelY, panelX + PANEL_WIDTH, panelY + panelHeight, panelColor);
+        gui.fill(panelX, panelY, panelX + PANEL_WIDTH, panelY + 10, headerColor);
         gui.drawString(minecraft.font, Component.translatable("hud.csmc.title"), panelX + 4, panelY + 2, 0xFFFFFF, false);
         gui.drawString(
             minecraft.font,

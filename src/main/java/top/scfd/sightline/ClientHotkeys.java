@@ -45,10 +45,23 @@ public final class ClientHotkeys {
         GLFW.GLFW_KEY_K,
         CATEGORY
     );
+    private static final KeyMapping HUD_OPACITY_DOWN = new KeyMapping(
+        "key.sightline.hud_opacity_down",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_U,
+        CATEGORY
+    );
+    private static final KeyMapping HUD_OPACITY_UP = new KeyMapping(
+        "key.sightline.hud_opacity_up",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_I,
+        CATEGORY
+    );
 
     private static boolean hudEnabled = true;
     private static boolean hudCompact;
     private static HudAnchor hudAnchor = HudAnchor.TOP_LEFT;
+    private static int hudOpacityAlpha = 0x88;
 
     private ClientHotkeys() {
     }
@@ -65,12 +78,18 @@ public final class ClientHotkeys {
         return hudAnchor;
     }
 
+    public static int hudOpacityAlpha() {
+        return hudOpacityAlpha;
+    }
+
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.registerCategory(CATEGORY);
         event.register(TOGGLE_HUD);
         event.register(TOGGLE_CAMERA_VIEW);
         event.register(TOGGLE_HUD_MODE);
         event.register(TOGGLE_HUD_ANCHOR);
+        event.register(HUD_OPACITY_DOWN);
+        event.register(HUD_OPACITY_UP);
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -85,6 +104,12 @@ public final class ClientHotkeys {
         }
         while (TOGGLE_HUD_ANCHOR.consumeClick()) {
             cycleHudAnchor();
+        }
+        while (HUD_OPACITY_DOWN.consumeClick()) {
+            adjustHudOpacity(-16);
+        }
+        while (HUD_OPACITY_UP.consumeClick()) {
+            adjustHudOpacity(16);
         }
     }
 
@@ -154,5 +179,18 @@ public final class ClientHotkeys {
             case BOTTOM_LEFT -> "hud.sightline.hud_anchor.bottom_left";
             case BOTTOM_RIGHT -> "hud.sightline.hud_anchor.bottom_right";
         };
+    }
+
+    private static void adjustHudOpacity(int delta) {
+        Minecraft minecraft = Minecraft.getInstance();
+        int next = Math.max(0x20, Math.min(0xE0, hudOpacityAlpha + delta));
+        if (next == hudOpacityAlpha) {
+            return;
+        }
+        hudOpacityAlpha = next;
+        int percent = (int) Math.round((hudOpacityAlpha / 255.0) * 100.0);
+        if (minecraft.gui != null) {
+            minecraft.gui.setOverlayMessage(Component.translatable("hud.sightline.opacity", percent), false);
+        }
     }
 }
