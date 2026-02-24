@@ -1,7 +1,10 @@
 package top.scfd.sightline;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.CameraType;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -17,6 +20,12 @@ public final class ClientHotkeys {
         GLFW.GLFW_KEY_H,
         CATEGORY
     );
+    private static final KeyMapping TOGGLE_CAMERA_VIEW = new KeyMapping(
+        "key.sightline.toggle_view",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_V,
+        CATEGORY
+    );
 
     private static boolean hudEnabled = true;
 
@@ -30,11 +39,41 @@ public final class ClientHotkeys {
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.registerCategory(CATEGORY);
         event.register(TOGGLE_HUD);
+        event.register(TOGGLE_CAMERA_VIEW);
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
         while (TOGGLE_HUD.consumeClick()) {
             hudEnabled = !hudEnabled;
         }
+        while (TOGGLE_CAMERA_VIEW.consumeClick()) {
+            toggleCameraView();
+        }
+    }
+
+    private static void toggleCameraView() {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.options == null || minecraft.player == null) {
+            return;
+        }
+        CameraType current = minecraft.options.getCameraType();
+        CameraType next = switch (current) {
+            case FIRST_PERSON -> CameraType.THIRD_PERSON_BACK;
+            case THIRD_PERSON_BACK -> CameraType.THIRD_PERSON_FRONT;
+            case THIRD_PERSON_FRONT -> CameraType.FIRST_PERSON;
+        };
+        minecraft.options.setCameraType(next);
+        minecraft.gui.setOverlayMessage(
+            Component.translatable("hud.sightline.view_mode", Component.translatable(translationFor(next))),
+            false
+        );
+    }
+
+    private static String translationFor(CameraType type) {
+        return switch (type) {
+            case FIRST_PERSON -> "hud.sightline.view.first";
+            case THIRD_PERSON_BACK -> "hud.sightline.view.third_back";
+            case THIRD_PERSON_FRONT -> "hud.sightline.view.third_front";
+        };
     }
 }
