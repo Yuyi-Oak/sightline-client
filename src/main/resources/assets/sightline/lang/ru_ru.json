@@ -1,0 +1,15 @@
+{
+  "mod.sightline.title": "Клиент Sightline",
+  "hud.csmc.title": "CSMC HUD",
+  "hud.sightline.health": "HP: %s",
+  "hud.sightline.armor": "Броня: %s",
+  "hud.sightline.fps": "FPS: %s",
+  "hud.sightline.ping": "Пинг: %s мс",
+  "hud.sightline.view_mode": "Вид: %s",
+  "hud.sightline.view.first": "От первого лица",
+  "hud.sightline.view.third_back": "От третьего лица (сзади)",
+  "hud.sightline.view.third_front": "От третьего лица (спереди)",
+  "key.sightline.toggle_hud": "Показать/скрыть CSMC HUD",
+  "key.sightline.toggle_view": "Сменить вид камеры",
+  "key.category.sightline.sightline": "Sightline"
+}

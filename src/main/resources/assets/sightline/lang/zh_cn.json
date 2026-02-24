@@ -1,0 +1,15 @@
+{
+  "mod.sightline.title": "Sightline 客户端",
+  "hud.csmc.title": "CSMC HUD",
+  "hud.sightline.health": "生命值: %s",
+  "hud.sightline.armor": "护甲: %s",
+  "hud.sightline.fps": "帧率: %s",
+  "hud.sightline.ping": "延迟: %s ms",
+  "hud.sightline.view_mode": "视角: %s",
+  "hud.sightline.view.first": "第一人称",
+  "hud.sightline.view.third_back": "第三人称（后）",
+  "hud.sightline.view.third_front": "第三人称（前）",
+  "key.sightline.toggle_hud": "切换 CSMC HUD",
+  "key.sightline.toggle_view": "切换视角",
+  "key.category.sightline.sightline": "Sightline"
+}
