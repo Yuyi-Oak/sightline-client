@@ -17,9 +17,12 @@
   "hud.sightline.hud_anchor.top_right": "Oben rechts",
   "hud.sightline.hud_anchor.bottom_left": "Unten links",
   "hud.sightline.hud_anchor.bottom_right": "Unten rechts",
+  "hud.sightline.opacity": "HUD-Deckkraft: %s%%",
   "key.sightline.toggle_hud": "CSMC HUD umschalten",
   "key.sightline.toggle_view": "Kameraansicht wechseln",
   "key.sightline.toggle_hud_mode": "HUD-Dichte wechseln",
   "key.sightline.toggle_hud_anchor": "HUD-Position wechseln",
+  "key.sightline.hud_opacity_down": "HUD-Deckkraft verringern",
+  "key.sightline.hud_opacity_up": "HUD-Deckkraft erhöhen",
   "key.category.sightline.sightline": "Sightline"
 }

@@ -17,9 +17,12 @@
   "hud.sightline.hud_anchor.top_right": "Сверху справа",
   "hud.sightline.hud_anchor.bottom_left": "Снизу слева",
   "hud.sightline.hud_anchor.bottom_right": "Снизу справа",
+  "hud.sightline.opacity": "Прозрачность HUD: %s%%",
   "key.sightline.toggle_hud": "Показать/скрыть CSMC HUD",
   "key.sightline.toggle_view": "Сменить вид камеры",
   "key.sightline.toggle_hud_mode": "Сменить плотность HUD",
   "key.sightline.toggle_hud_anchor": "Сменить позицию HUD",
+  "key.sightline.hud_opacity_down": "Уменьшить прозрачность HUD",
+  "key.sightline.hud_opacity_up": "Увеличить прозрачность HUD",
   "key.category.sightline.sightline": "Sightline"
 }

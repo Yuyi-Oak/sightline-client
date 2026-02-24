@@ -17,9 +17,12 @@
   "hud.sightline.hud_anchor.top_right": "右上",
   "hud.sightline.hud_anchor.bottom_left": "左下",
   "hud.sightline.hud_anchor.bottom_right": "右下",
+  "hud.sightline.opacity": "HUD 不透明度: %s%%",
   "key.sightline.toggle_hud": "切换 CSMC HUD",
   "key.sightline.toggle_view": "切换视角",
   "key.sightline.toggle_hud_mode": "切换 HUD 密度",
   "key.sightline.toggle_hud_anchor": "切换 HUD 位置",
+  "key.sightline.hud_opacity_down": "降低 HUD 不透明度",
+  "key.sightline.hud_opacity_up": "提高 HUD 不透明度",
   "key.category.sightline.sightline": "Sightline"
 }

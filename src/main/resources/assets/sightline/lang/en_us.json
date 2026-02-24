@@ -17,9 +17,12 @@
   "hud.sightline.hud_anchor.top_right": "Top Right",
   "hud.sightline.hud_anchor.bottom_left": "Bottom Left",
   "hud.sightline.hud_anchor.bottom_right": "Bottom Right",
+  "hud.sightline.opacity": "HUD Opacity: %s%%",
   "key.sightline.toggle_hud": "Toggle CSMC HUD",
   "key.sightline.toggle_view": "Cycle Camera View",
   "key.sightline.toggle_hud_mode": "Toggle HUD Density",
   "key.sightline.toggle_hud_anchor": "Cycle HUD Position",
+  "key.sightline.hud_opacity_down": "Decrease HUD Opacity",
+  "key.sightline.hud_opacity_up": "Increase HUD Opacity",
   "key.category.sightline.sightline": "Sightline"
 }
