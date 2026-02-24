@@ -1,4 +1,10 @@
 {
   "mod.sightline.title": "Sightline Client",
-  "hud.csmc.title": "CSMC HUD"
+  "hud.csmc.title": "CSMC HUD",
+  "hud.sightline.health": "HP: %s",
+  "hud.sightline.armor": "Armor: %s",
+  "hud.sightline.fps": "FPS: %s",
+  "hud.sightline.ping": "Ping: %s ms",
+  "key.sightline.toggle_hud": "Toggle CSMC HUD",
+  "key.category.sightline.sightline": "Sightline"
 }
