@@ -11,6 +11,13 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
 public final class ClientHotkeys {
+    public enum HudAnchor {
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT
+    }
+
     private static final KeyMapping.Category CATEGORY = new KeyMapping.Category(
         Identifier.fromNamespaceAndPath(SightlineClient.MOD_ID, "sightline")
     );
@@ -32,9 +39,16 @@ public final class ClientHotkeys {
         GLFW.GLFW_KEY_J,
         CATEGORY
     );
+    private static final KeyMapping TOGGLE_HUD_ANCHOR = new KeyMapping(
+        "key.sightline.toggle_hud_anchor",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_K,
+        CATEGORY
+    );
 
     private static boolean hudEnabled = true;
     private static boolean hudCompact;
+    private static HudAnchor hudAnchor = HudAnchor.TOP_LEFT;
 
     private ClientHotkeys() {
     }
@@ -47,11 +61,16 @@ public final class ClientHotkeys {
         return hudCompact;
     }
 
+    public static HudAnchor hudAnchor() {
+        return hudAnchor;
+    }
+
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.registerCategory(CATEGORY);
         event.register(TOGGLE_HUD);
         event.register(TOGGLE_CAMERA_VIEW);
         event.register(TOGGLE_HUD_MODE);
+        event.register(TOGGLE_HUD_ANCHOR);
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -63,6 +82,9 @@ public final class ClientHotkeys {
         }
         while (TOGGLE_HUD_MODE.consumeClick()) {
             toggleHudMode();
+        }
+        while (TOGGLE_HUD_ANCHOR.consumeClick()) {
+            cycleHudAnchor();
         }
     }
 
@@ -104,5 +126,33 @@ public final class ClientHotkeys {
                 false
             );
         }
+    }
+
+    private static void cycleHudAnchor() {
+        Minecraft minecraft = Minecraft.getInstance();
+        hudAnchor = switch (hudAnchor) {
+            case TOP_LEFT -> HudAnchor.TOP_RIGHT;
+            case TOP_RIGHT -> HudAnchor.BOTTOM_RIGHT;
+            case BOTTOM_RIGHT -> HudAnchor.BOTTOM_LEFT;
+            case BOTTOM_LEFT -> HudAnchor.TOP_LEFT;
+        };
+        if (minecraft.gui != null) {
+            minecraft.gui.setOverlayMessage(
+                Component.translatable(
+                    "hud.sightline.hud_anchor",
+                    Component.translatable(translationFor(hudAnchor))
+                ),
+                false
+            );
+        }
+    }
+
+    private static String translationFor(HudAnchor anchor) {
+        return switch (anchor) {
+            case TOP_LEFT -> "hud.sightline.hud_anchor.top_left";
+            case TOP_RIGHT -> "hud.sightline.hud_anchor.top_right";
+            case BOTTOM_LEFT -> "hud.sightline.hud_anchor.bottom_left";
+            case BOTTOM_RIGHT -> "hud.sightline.hud_anchor.bottom_right";
+        };
     }
 }

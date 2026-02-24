@@ -14,4 +14,5 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - HUD visibility hotkey: `H` (rebindable in controls under Sightline category).
 - Camera view cycle hotkey: `V` (first-person -> third-back -> third-front).
 - HUD density hotkey: `J` (full/compact).
+- HUD position hotkey: `K` (top-left -> top-right -> bottom-right -> bottom-left).
 - Locale bundles: `en_us`, `zh_cn`, `ru_ru`, `fr_fr`, `de_de`.
