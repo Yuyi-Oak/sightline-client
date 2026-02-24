@@ -13,7 +13,8 @@ public final class HudOverlay {
     private static final int PANEL_X = 8;
     private static final int PANEL_Y = 8;
     private static final int PANEL_WIDTH = 140;
-    private static final int PANEL_HEIGHT = 58;
+    private static final int PANEL_HEIGHT_FULL = 58;
+    private static final int PANEL_HEIGHT_COMPACT = 34;
 
     private HudOverlay() {
     }
@@ -31,9 +32,11 @@ public final class HudOverlay {
         int ping = resolvePing(minecraft);
         int health = (int) Math.ceil(minecraft.player.getHealth());
         int armor = minecraft.player.getArmorValue();
+        boolean compact = ClientHotkeys.isHudCompact();
+        int panelHeight = compact ? PANEL_HEIGHT_COMPACT : PANEL_HEIGHT_FULL;
 
         var gui = event.getGuiGraphics();
-        gui.fill(PANEL_X, PANEL_Y, PANEL_X + PANEL_WIDTH, PANEL_Y + PANEL_HEIGHT, 0x88000000);
+        gui.fill(PANEL_X, PANEL_Y, PANEL_X + PANEL_WIDTH, PANEL_Y + panelHeight, 0x88000000);
         gui.fill(PANEL_X, PANEL_Y, PANEL_X + PANEL_WIDTH, PANEL_Y + 10, 0xCC202020);
         gui.drawString(minecraft.font, Component.translatable("hud.csmc.title"), PANEL_X + 4, PANEL_Y + 2, 0xFFFFFF, false);
         gui.drawString(
@@ -52,6 +55,9 @@ public final class HudOverlay {
             0x6BCBFF,
             false
         );
+        if (compact) {
+            return;
+        }
         gui.drawString(
             minecraft.font,
             Component.translatable("hud.sightline.fps", fps),

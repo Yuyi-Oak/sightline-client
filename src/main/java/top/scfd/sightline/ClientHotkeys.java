@@ -26,8 +26,15 @@ public final class ClientHotkeys {
         GLFW.GLFW_KEY_V,
         CATEGORY
     );
+    private static final KeyMapping TOGGLE_HUD_MODE = new KeyMapping(
+        "key.sightline.toggle_hud_mode",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_J,
+        CATEGORY
+    );
 
     private static boolean hudEnabled = true;
+    private static boolean hudCompact;
 
     private ClientHotkeys() {
     }
@@ -36,10 +43,15 @@ public final class ClientHotkeys {
         return hudEnabled;
     }
 
+    public static boolean isHudCompact() {
+        return hudCompact;
+    }
+
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.registerCategory(CATEGORY);
         event.register(TOGGLE_HUD);
         event.register(TOGGLE_CAMERA_VIEW);
+        event.register(TOGGLE_HUD_MODE);
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -48,6 +60,9 @@ public final class ClientHotkeys {
         }
         while (TOGGLE_CAMERA_VIEW.consumeClick()) {
             toggleCameraView();
+        }
+        while (TOGGLE_HUD_MODE.consumeClick()) {
+            toggleHudMode();
         }
     }
 
@@ -75,5 +90,19 @@ public final class ClientHotkeys {
             case THIRD_PERSON_BACK -> "hud.sightline.view.third_back";
             case THIRD_PERSON_FRONT -> "hud.sightline.view.third_front";
         };
+    }
+
+    private static void toggleHudMode() {
+        Minecraft minecraft = Minecraft.getInstance();
+        hudCompact = !hudCompact;
+        if (minecraft.gui != null) {
+            minecraft.gui.setOverlayMessage(
+                Component.translatable(
+                    "hud.sightline.hud_mode",
+                    Component.translatable(hudCompact ? "hud.sightline.hud_mode.compact" : "hud.sightline.hud_mode.full")
+                ),
+                false
+            );
+        }
     }
 }

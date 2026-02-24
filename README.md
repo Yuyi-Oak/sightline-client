@@ -13,4 +13,5 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - Lightweight in-game HUD panel (HP/Armor/FPS/Ping).
 - HUD visibility hotkey: `H` (rebindable in controls under Sightline category).
 - Camera view cycle hotkey: `V` (first-person -> third-back -> third-front).
+- HUD density hotkey: `J` (full/compact).
 - Locale bundles: `en_us`, `zh_cn`, `ru_ru`, `fr_fr`, `de_de`.

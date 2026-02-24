@@ -9,7 +9,11 @@
   "hud.sightline.view.first": "Erste Person",
   "hud.sightline.view.third_back": "Dritte Person (hinten)",
   "hud.sightline.view.third_front": "Dritte Person (vorne)",
+  "hud.sightline.hud_mode": "HUD: %s",
+  "hud.sightline.hud_mode.full": "Voll",
+  "hud.sightline.hud_mode.compact": "Kompakt",
   "key.sightline.toggle_hud": "CSMC HUD umschalten",
   "key.sightline.toggle_view": "Kameraansicht wechseln",
+  "key.sightline.toggle_hud_mode": "HUD-Dichte wechseln",
   "key.category.sightline.sightline": "Sightline"
 }

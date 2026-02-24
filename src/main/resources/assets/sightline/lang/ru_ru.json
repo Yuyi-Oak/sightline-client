@@ -9,7 +9,11 @@
   "hud.sightline.view.first": "От первого лица",
   "hud.sightline.view.third_back": "От третьего лица (сзади)",
   "hud.sightline.view.third_front": "От третьего лица (спереди)",
+  "hud.sightline.hud_mode": "HUD: %s",
+  "hud.sightline.hud_mode.full": "Полный",
+  "hud.sightline.hud_mode.compact": "Компактный",
   "key.sightline.toggle_hud": "Показать/скрыть CSMC HUD",
   "key.sightline.toggle_view": "Сменить вид камеры",
+  "key.sightline.toggle_hud_mode": "Сменить плотность HUD",
   "key.category.sightline.sightline": "Sightline"
 }

@@ -9,7 +9,11 @@
   "hud.sightline.view.first": "First Person",
   "hud.sightline.view.third_back": "Third Person (Back)",
   "hud.sightline.view.third_front": "Third Person (Front)",
+  "hud.sightline.hud_mode": "HUD: %s",
+  "hud.sightline.hud_mode.full": "Full",
+  "hud.sightline.hud_mode.compact": "Compact",
   "key.sightline.toggle_hud": "Toggle CSMC HUD",
   "key.sightline.toggle_view": "Cycle Camera View",
+  "key.sightline.toggle_hud_mode": "Toggle HUD Density",
   "key.category.sightline.sightline": "Sightline"
 }
