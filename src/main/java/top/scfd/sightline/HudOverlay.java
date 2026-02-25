@@ -15,7 +15,7 @@ public final class HudOverlay {
     private static final int PANEL_MARGIN = 8;
     private static final int PANEL_WIDTH = 156;
     private static final int PANEL_HEIGHT_FULL = 90;
-    private static final int PANEL_HEIGHT_COMPACT = 46;
+    private static final int PANEL_HEIGHT_COMPACT = 56;
     private static final Pattern AMMO_PATTERN = Pattern.compile(".*\\[(\\d+)/(\\d+)]\\s*$");
 
     private HudOverlay() {
@@ -81,9 +81,17 @@ public final class HudOverlay {
         if (compact) {
             gui.drawString(
                 minecraft.font,
-                ammo.asComponent(),
+                Component.translatable("hud.sightline.weapon", weapon.label()),
                 panelX + 4,
                 panelY + 34,
+                colorForWeapon(weapon),
+                false
+            );
+            gui.drawString(
+                minecraft.font,
+                ammo.asComponent(),
+                panelX + 4,
+                panelY + 44,
                 colorForAmmo(ammo),
                 false
             );
