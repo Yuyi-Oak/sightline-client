@@ -20,6 +20,7 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - HUD layout reset hotkey: `O` (resets mode, position, opacity).
 - Reticle toggle hotkey: `M`.
 - Reticle gap dynamically expands while moving or airborne.
+- Reticle now shifts to warning colors on low/empty magazine when ammo data is available.
 - Full HUD now reads weapon ammo from CSMC item names (e.g., `[30/90]`) and renders `Ammo: mag/reserve`.
 - Compact HUD now also renders ammo line (same parsed source).
 - Locale bundles: `en_us`, `zh_cn`, `ru_ru`, `fr_fr`, `de_de`.

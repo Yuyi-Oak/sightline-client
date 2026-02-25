@@ -74,7 +74,7 @@ public final class HudOverlay {
             false
         );
         if (ClientHotkeys.isReticleEnabled()) {
-            drawReticle(minecraft, guiWidth, guiHeight, gui);
+            drawReticle(minecraft, guiWidth, guiHeight, gui, ammo);
         }
         if (compact) {
             gui.drawString(
@@ -217,7 +217,13 @@ public final class HudOverlay {
         }
     }
 
-    private static void drawReticle(Minecraft minecraft, int guiWidth, int guiHeight, net.minecraft.client.gui.GuiGraphics gui) {
+    private static void drawReticle(
+        Minecraft minecraft,
+        int guiWidth,
+        int guiHeight,
+        net.minecraft.client.gui.GuiGraphics gui,
+        AmmoState ammo
+    ) {
         if (minecraft.player == null) {
             return;
         }
@@ -225,14 +231,25 @@ public final class HudOverlay {
         double horizontalSpeed = Math.hypot(velocity.x, velocity.z);
         double verticalSpeed = Math.abs(velocity.y);
         boolean airborneLike = verticalSpeed > 0.08;
+        boolean lowAmmo = ammo.available() && ammo.magazine() > 0 && ammo.magazine() <= 5;
+        boolean emptyAmmo = ammo.available() && ammo.magazine() <= 0;
         int gap = 2 + (int) Math.min(8.0, horizontalSpeed * 20.0 + (airborneLike ? 3.0 : 0.0));
         int length = 3;
 
         int centerX = guiWidth / 2;
         int centerY = guiHeight / 2;
-        int color = airborneLike
-            ? 0xCCFF8A66
-            : horizontalSpeed > 0.10 ? 0xCCECD06F : 0xCCFFFFFF;
+        int color;
+        if (emptyAmmo) {
+            color = 0xCCFF4D4D;
+        } else if (lowAmmo) {
+            color = 0xCCFFD166;
+        } else if (airborneLike) {
+            color = 0xCCFF8A66;
+        } else if (horizontalSpeed > 0.10) {
+            color = 0xCCECD06F;
+        } else {
+            color = 0xCCFFFFFF;
+        }
         gui.fill(centerX - gap - length, centerY, centerX - gap, centerY + 1, color);
         gui.fill(centerX + gap, centerY, centerX + gap + length, centerY + 1, color);
         gui.fill(centerX, centerY - gap - length, centerX + 1, centerY - gap, color);
