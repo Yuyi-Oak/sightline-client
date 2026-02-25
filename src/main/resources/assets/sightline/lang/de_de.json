@@ -24,6 +24,7 @@
   "hud.sightline.layout": "Modus: %s | Pos: %s | Opaz.: %s%%",
   "hud.sightline.spectator.free": "Beobachtung: Freie Kamera",
   "hud.sightline.spectator.player": "Beobachtung: %s",
+  "hud.sightline.spectator.player_hp": "Beobachtung: %s | LP: %s",
   "hud.sightline.spectator.entity": "Beobachtung: %s",
   "hud.sightline.layout_reset": "HUD-Layout zurückgesetzt",
   "hud.sightline.reticle": "Fadenkreuz: %s",

@@ -24,6 +24,7 @@
   "hud.sightline.layout": "Mode : %s | Position : %s | Opac.: %s%%",
   "hud.sightline.spectator.free": "Spectateur : caméra libre",
   "hud.sightline.spectator.player": "Spectateur : %s",
+  "hud.sightline.spectator.player_hp": "Spectateur : %s | PV : %s",
   "hud.sightline.spectator.entity": "Spectateur : %s",
   "hud.sightline.layout_reset": "Disposition HUD réinitialisée",
   "hud.sightline.reticle": "Réticule : %s",

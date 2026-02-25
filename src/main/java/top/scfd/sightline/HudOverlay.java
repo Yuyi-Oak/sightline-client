@@ -244,7 +244,8 @@ public final class HudOverlay {
             return Component.translatable("hud.sightline.spectator.free");
         }
         if (camera instanceof Player targetPlayer) {
-            return Component.translatable("hud.sightline.spectator.player", targetPlayer.getName());
+            int hp = (int) Math.ceil(targetPlayer.getHealth());
+            return Component.translatable("hud.sightline.spectator.player_hp", targetPlayer.getName(), hp);
         }
         return Component.translatable("hud.sightline.spectator.entity", camera.getName());
     }
