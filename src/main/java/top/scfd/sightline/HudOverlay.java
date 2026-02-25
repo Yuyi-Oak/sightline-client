@@ -58,6 +58,13 @@ public final class HudOverlay {
             opacityPercent
         );
         int panelWidth = resolvePanelWidth(minecraft, compact, weaponLine, ammoLine, layoutLine, spectatorLine);
+        int textMaxWidth = Math.max(8, panelWidth - 8);
+        Component weaponLineDisplay = ellipsize(minecraft, weaponLine, textMaxWidth);
+        Component ammoLineDisplay = ellipsize(minecraft, ammoLine, textMaxWidth);
+        Component layoutLineDisplay = ellipsize(minecraft, layoutLine, textMaxWidth);
+        Component spectatorLineDisplay = spectatorLine == null
+            ? null
+            : ellipsize(minecraft, spectatorLine, textMaxWidth);
         int guiWidth = minecraft.getWindow().getGuiScaledWidth();
         int guiHeight = minecraft.getWindow().getGuiScaledHeight();
         int panelX = switch (ClientHotkeys.hudAnchor()) {
@@ -99,7 +106,7 @@ public final class HudOverlay {
         if (compact) {
             gui.drawString(
                 minecraft.font,
-                weaponLine,
+                weaponLineDisplay,
                 panelX + 4,
                 panelY + 34,
                 colorForWeapon(weapon),
@@ -107,16 +114,16 @@ public final class HudOverlay {
             );
             gui.drawString(
                 minecraft.font,
-                ammoLine,
+                ammoLineDisplay,
                 panelX + 4,
                 panelY + 44,
                 colorForAmmo(ammo),
                 false
             );
-            if (spectatorLine != null) {
+            if (spectatorLineDisplay != null) {
                 gui.drawString(
                     minecraft.font,
-                    spectatorLine,
+                    spectatorLineDisplay,
                     panelX + 4,
                     panelY + 54,
                     0x7EE6FF,
@@ -127,7 +134,7 @@ public final class HudOverlay {
         }
         gui.drawString(
             minecraft.font,
-            weaponLine,
+            weaponLineDisplay,
             panelX + 4,
             panelY + 34,
             colorForWeapon(weapon),
@@ -151,7 +158,7 @@ public final class HudOverlay {
         );
         gui.drawString(
             minecraft.font,
-            ammoLine,
+            ammoLineDisplay,
             panelX + 4,
             panelY + 64,
             colorForAmmo(ammo),
@@ -159,16 +166,16 @@ public final class HudOverlay {
         );
         gui.drawString(
             minecraft.font,
-            layoutLine,
+            layoutLineDisplay,
             panelX + 4,
             panelY + 74,
             0xD5D5D5,
             false
         );
-        if (spectatorLine != null) {
+        if (spectatorLineDisplay != null) {
             gui.drawString(
                 minecraft.font,
-                spectatorLine,
+                spectatorLineDisplay,
                 panelX + 4,
                 panelY + 84,
                 0x7EE6FF,
@@ -196,6 +203,30 @@ public final class HudOverlay {
             width = Math.max(width, minecraft.font.width(spectatorLine) + 8);
         }
         return Math.min(PANEL_WIDTH_MAX, width);
+    }
+
+    private static Component ellipsize(Minecraft minecraft, Component component, int maxWidth) {
+        if (component == null || maxWidth <= 0) {
+            return Component.empty();
+        }
+        String text = component.getString();
+        if (minecraft.font.width(text) <= maxWidth) {
+            return component;
+        }
+        String suffix = "...";
+        int suffixWidth = minecraft.font.width(suffix);
+        if (suffixWidth >= maxWidth) {
+            return Component.literal(suffix);
+        }
+        int end = text.length();
+        while (end > 0) {
+            String candidate = text.substring(0, end);
+            if (minecraft.font.width(candidate) + suffixWidth <= maxWidth) {
+                return Component.literal(candidate + suffix);
+            }
+            end--;
+        }
+        return Component.literal(suffix);
     }
 
     private static Component spectatorLine(Minecraft minecraft) {
