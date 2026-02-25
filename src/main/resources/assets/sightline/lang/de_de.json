@@ -19,6 +19,9 @@
   "hud.sightline.hud_anchor.bottom_right": "Unten rechts",
   "hud.sightline.layout": "Modus: %s | Pos: %s | Opaz.: %s%%",
   "hud.sightline.layout_reset": "HUD-Layout zurückgesetzt",
+  "hud.sightline.reticle": "Fadenkreuz: %s",
+  "hud.sightline.reticle.on": "An",
+  "hud.sightline.reticle.off": "Aus",
   "hud.sightline.opacity": "HUD-Deckkraft: %s%%",
   "key.sightline.toggle_hud": "CSMC HUD umschalten",
   "key.sightline.toggle_view": "Kameraansicht wechseln",
@@ -27,5 +30,6 @@
   "key.sightline.hud_opacity_down": "HUD-Deckkraft verringern",
   "key.sightline.hud_opacity_up": "HUD-Deckkraft erhöhen",
   "key.sightline.hud_layout_reset": "HUD-Layout zurücksetzen",
+  "key.sightline.toggle_reticle": "Fadenkreuz umschalten",
   "key.category.sightline.sightline": "Sightline"
 }

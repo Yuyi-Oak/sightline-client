@@ -19,6 +19,9 @@
   "hud.sightline.hud_anchor.bottom_right": "Bottom Right",
   "hud.sightline.layout": "Mode: %s | Pos: %s | Op: %s%%",
   "hud.sightline.layout_reset": "HUD layout reset",
+  "hud.sightline.reticle": "Reticle: %s",
+  "hud.sightline.reticle.on": "On",
+  "hud.sightline.reticle.off": "Off",
   "hud.sightline.opacity": "HUD Opacity: %s%%",
   "key.sightline.toggle_hud": "Toggle CSMC HUD",
   "key.sightline.toggle_view": "Cycle Camera View",
@@ -27,5 +30,6 @@
   "key.sightline.hud_opacity_down": "Decrease HUD Opacity",
   "key.sightline.hud_opacity_up": "Increase HUD Opacity",
   "key.sightline.hud_layout_reset": "Reset HUD Layout",
+  "key.sightline.toggle_reticle": "Toggle Reticle",
   "key.category.sightline.sightline": "Sightline"
 }
