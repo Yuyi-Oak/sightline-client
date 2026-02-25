@@ -8,6 +8,7 @@
   "hud.sightline.ammo.none": "Ammo: --/--",
   "hud.sightline.fps": "FPS: %s",
   "hud.sightline.ping": "Ping: %s ms",
+  "hud.sightline.ping.unknown": "Ping: --",
   "hud.sightline.view_mode": "View: %s",
   "hud.sightline.view.first": "First Person",
   "hud.sightline.view.third_back": "Third Person (Back)",

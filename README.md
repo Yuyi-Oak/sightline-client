@@ -20,6 +20,7 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - HUD now shows current spectating target while in spectator mode (free camera/player/entity).
 - HUD panel width now auto-expands for long weapon/spectator labels (with sane max width cap).
 - HUD text now applies ellipsis clipping when labels still exceed max panel width.
+- HUD ping now renders as `--` when latency data is temporarily unavailable.
 - HUD layout reset hotkey: `O` (resets mode, position, opacity).
 - Reticle toggle hotkey: `M`.
 - Reticle rendering is suppressed in spectator mode.

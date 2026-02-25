@@ -51,16 +51,20 @@ public final class HudOverlay {
         int opacityPercent = (int) Math.round((ClientHotkeys.hudOpacityAlpha() / 255.0) * 100.0);
         Component weaponLine = Component.translatable("hud.sightline.weapon", weapon.label());
         Component ammoLine = ammo.asComponent();
+        Component pingLine = ping < 0
+            ? Component.translatable("hud.sightline.ping.unknown")
+            : Component.translatable("hud.sightline.ping", ping);
         Component layoutLine = Component.translatable(
             "hud.sightline.layout",
             Component.translatable(ClientHotkeys.hudModeTranslationKey()),
             Component.translatable(ClientHotkeys.hudAnchorTranslationKey()),
             opacityPercent
         );
-        int panelWidth = resolvePanelWidth(minecraft, compact, weaponLine, ammoLine, layoutLine, spectatorLine);
+        int panelWidth = resolvePanelWidth(minecraft, compact, weaponLine, ammoLine, pingLine, layoutLine, spectatorLine);
         int textMaxWidth = Math.max(8, panelWidth - 8);
         Component weaponLineDisplay = ellipsize(minecraft, weaponLine, textMaxWidth);
         Component ammoLineDisplay = ellipsize(minecraft, ammoLine, textMaxWidth);
+        Component pingLineDisplay = ellipsize(minecraft, pingLine, textMaxWidth);
         Component layoutLineDisplay = ellipsize(minecraft, layoutLine, textMaxWidth);
         Component spectatorLineDisplay = spectatorLine == null
             ? null
@@ -150,7 +154,7 @@ public final class HudOverlay {
         );
         gui.drawString(
             minecraft.font,
-            Component.translatable("hud.sightline.ping", ping),
+            pingLineDisplay,
             panelX + 4,
             panelY + 54,
             colorForPing(ping),
@@ -190,6 +194,7 @@ public final class HudOverlay {
         boolean compact,
         Component weaponLine,
         Component ammoLine,
+        Component pingLine,
         Component layoutLine,
         Component spectatorLine
     ) {
@@ -197,6 +202,7 @@ public final class HudOverlay {
         width = Math.max(width, minecraft.font.width(weaponLine) + 8);
         width = Math.max(width, minecraft.font.width(ammoLine) + 8);
         if (!compact) {
+            width = Math.max(width, minecraft.font.width(pingLine) + 8);
             width = Math.max(width, minecraft.font.width(layoutLine) + 8);
         }
         if (spectatorLine != null) {

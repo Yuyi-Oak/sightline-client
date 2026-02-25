@@ -8,6 +8,7 @@
   "hud.sightline.ammo.none": "Боезапас: --/--",
   "hud.sightline.fps": "FPS: %s",
   "hud.sightline.ping": "Пинг: %s мс",
+  "hud.sightline.ping.unknown": "Пинг: --",
   "hud.sightline.view_mode": "Вид: %s",
   "hud.sightline.view.first": "От первого лица",
   "hud.sightline.view.third_back": "От третьего лица (сзади)",

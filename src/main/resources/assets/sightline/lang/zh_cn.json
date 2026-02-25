@@ -8,6 +8,7 @@
   "hud.sightline.ammo.none": "弹药: --/--",
   "hud.sightline.fps": "帧率: %s",
   "hud.sightline.ping": "延迟: %s ms",
+  "hud.sightline.ping.unknown": "延迟: --",
   "hud.sightline.view_mode": "视角: %s",
   "hud.sightline.view.first": "第一人称",
   "hud.sightline.view.third_back": "第三人称（后）",
