@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public final class HudOverlay {
     private static final int PANEL_MARGIN = 8;
     private static final int PANEL_WIDTH = 156;
-    private static final int PANEL_HEIGHT_FULL = 78;
+    private static final int PANEL_HEIGHT_FULL = 90;
     private static final int PANEL_HEIGHT_COMPACT = 46;
     private static final Pattern AMMO_PATTERN = Pattern.compile(".*\\[(\\d+)/(\\d+)]\\s*$");
 
@@ -36,6 +36,7 @@ public final class HudOverlay {
         int maxHealth = (int) Math.ceil(minecraft.player.getMaxHealth());
         int armor = minecraft.player.getArmorValue();
         AmmoState ammo = resolveAmmo(minecraft);
+        WeaponState weapon = resolveWeapon(minecraft);
         boolean compact = ClientHotkeys.isHudCompact();
         int panelHeight = compact ? PANEL_HEIGHT_COMPACT : PANEL_HEIGHT_FULL;
         int guiWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -89,9 +90,17 @@ public final class HudOverlay {
         }
         gui.drawString(
             minecraft.font,
-            Component.translatable("hud.sightline.fps", fps),
+            Component.translatable("hud.sightline.weapon", weapon.label()),
             panelX + 4,
             panelY + 34,
+            colorForWeapon(weapon),
+            false
+        );
+        gui.drawString(
+            minecraft.font,
+            Component.translatable("hud.sightline.fps", fps),
+            panelX + 4,
+            panelY + 44,
             colorForFps(fps),
             false
         );
@@ -99,7 +108,7 @@ public final class HudOverlay {
             minecraft.font,
             Component.translatable("hud.sightline.ping", ping),
             panelX + 4,
-            panelY + 44,
+            panelY + 54,
             colorForPing(ping),
             false
         );
@@ -107,7 +116,7 @@ public final class HudOverlay {
             minecraft.font,
             ammo.asComponent(),
             panelX + 4,
-            panelY + 54,
+            panelY + 64,
             colorForAmmo(ammo),
             false
         );
@@ -121,7 +130,7 @@ public final class HudOverlay {
                 opacityPercent
             ),
             panelX + 4,
-            panelY + 64,
+            panelY + 74,
             0xD5D5D5,
             false
         );
@@ -199,6 +208,10 @@ public final class HudOverlay {
         return 0xFFFFFF;
     }
 
+    private static int colorForWeapon(WeaponState weapon) {
+        return weapon.available() ? 0xFFFFFF : 0xA0A0A0;
+    }
+
     private static AmmoState resolveAmmo(Minecraft minecraft) {
         if (minecraft.player == null) {
             return AmmoState.unavailable();
@@ -215,6 +228,18 @@ public final class HudOverlay {
         } catch (NumberFormatException ignored) {
             return AmmoState.unavailable();
         }
+    }
+
+    private static WeaponState resolveWeapon(Minecraft minecraft) {
+        if (minecraft.player == null || minecraft.player.getMainHandItem().isEmpty()) {
+            return WeaponState.unavailable();
+        }
+        String rawName = minecraft.player.getMainHandItem().getHoverName().getString();
+        String withoutAmmo = rawName.replaceAll("\\s*\\[(\\d+)/(\\d+)]\\s*$", "").trim();
+        if (withoutAmmo.isBlank()) {
+            return WeaponState.unavailable();
+        }
+        return new WeaponState(true, withoutAmmo);
     }
 
     private static void drawReticle(
@@ -266,6 +291,12 @@ public final class HudOverlay {
                 return Component.translatable("hud.sightline.ammo.none");
             }
             return Component.translatable("hud.sightline.ammo", magazine, reserve);
+        }
+    }
+
+    private record WeaponState(boolean available, String label) {
+        private static WeaponState unavailable() {
+            return new WeaponState(false, "--");
         }
     }
 }
