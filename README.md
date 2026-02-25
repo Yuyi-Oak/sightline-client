@@ -18,7 +18,7 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - HUD opacity hotkeys: `U`/`I` (decrease/increase opacity).
 - Full HUD mode now includes a layout line (mode, anchor, opacity).
 - HUD now shows current spectating target while in spectator mode (free camera/player/entity).
-- Spectator target line now includes live HP when spectating a player.
+- Spectator target line now includes live HP + armor when spectating a player.
 - HUD panel width now auto-expands for long weapon/spectator labels (with sane max width cap).
 - HUD text now applies ellipsis clipping when labels still exceed max panel width.
 - HUD ping now renders as `--` when latency data is temporarily unavailable.

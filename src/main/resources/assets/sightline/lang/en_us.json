@@ -25,6 +25,7 @@
   "hud.sightline.spectator.free": "Spectating: Free Camera",
   "hud.sightline.spectator.player": "Spectating: %s",
   "hud.sightline.spectator.player_hp": "Spectating: %s | HP: %s",
+  "hud.sightline.spectator.player_state": "Spectating: %s | HP: %s | Armor: %s",
   "hud.sightline.spectator.entity": "Spectating: %s",
   "hud.sightline.layout_reset": "HUD layout reset",
   "hud.sightline.reticle": "Reticle: %s",

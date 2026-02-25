@@ -25,6 +25,7 @@
   "hud.sightline.spectator.free": "观战: 自由视角",
   "hud.sightline.spectator.player": "观战: %s",
   "hud.sightline.spectator.player_hp": "观战: %s | 生命: %s",
+  "hud.sightline.spectator.player_state": "观战: %s | 生命: %s | 护甲: %s",
   "hud.sightline.spectator.entity": "观战: %s",
   "hud.sightline.layout_reset": "HUD 布局已重置",
   "hud.sightline.reticle": "准星: %s",

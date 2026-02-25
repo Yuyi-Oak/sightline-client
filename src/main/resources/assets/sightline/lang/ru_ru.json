@@ -25,6 +25,7 @@
   "hud.sightline.spectator.free": "Наблюдение: свободная камера",
   "hud.sightline.spectator.player": "Наблюдение: %s",
   "hud.sightline.spectator.player_hp": "Наблюдение: %s | HP: %s",
+  "hud.sightline.spectator.player_state": "Наблюдение: %s | HP: %s | Броня: %s",
   "hud.sightline.spectator.entity": "Наблюдение: %s",
   "hud.sightline.layout_reset": "Макет HUD сброшен",
   "hud.sightline.reticle": "Прицел: %s",
