@@ -30,6 +30,7 @@ public final class HudOverlay {
         int fps = Minecraft.getInstance().getFps();
         int ping = resolvePing(minecraft);
         int health = (int) Math.ceil(minecraft.player.getHealth());
+        int maxHealth = (int) Math.ceil(minecraft.player.getMaxHealth());
         int armor = minecraft.player.getArmorValue();
         boolean compact = ClientHotkeys.isHudCompact();
         int panelHeight = compact ? PANEL_HEIGHT_COMPACT : PANEL_HEIGHT_FULL;
@@ -57,7 +58,7 @@ public final class HudOverlay {
             Component.translatable("hud.sightline.health", health),
             panelX + 4,
             panelY + 14,
-            0xFF6B6B,
+            colorForHealth(health, maxHealth),
             false
         );
         gui.drawString(
@@ -65,7 +66,7 @@ public final class HudOverlay {
             Component.translatable("hud.sightline.armor", armor),
             panelX + 4,
             panelY + 24,
-            0x6BCBFF,
+            colorForArmor(armor),
             false
         );
         if (compact) {
@@ -76,7 +77,7 @@ public final class HudOverlay {
             Component.translatable("hud.sightline.fps", fps),
             panelX + 4,
             panelY + 34,
-            0xC8FF72,
+            colorForFps(fps),
             false
         );
         gui.drawString(
@@ -84,7 +85,7 @@ public final class HudOverlay {
             Component.translatable("hud.sightline.ping", ping),
             panelX + 4,
             panelY + 44,
-            0xFFD166,
+            colorForPing(ping),
             false
         );
     }
@@ -95,5 +96,55 @@ public final class HudOverlay {
         }
         PlayerInfo info = minecraft.getConnection().getPlayerInfo(minecraft.player.getUUID());
         return info == null ? -1 : info.getLatency();
+    }
+
+    private static int colorForHealth(int health, int maxHealth) {
+        if (maxHealth <= 0) {
+            return 0xFF6B6B;
+        }
+        double ratio = (double) Math.max(0, health) / maxHealth;
+        if (ratio < 0.3) {
+            return 0xFF4D4D;
+        }
+        if (ratio < 0.6) {
+            return 0xFFB347;
+        }
+        return 0x7DFF8A;
+    }
+
+    private static int colorForArmor(int armor) {
+        if (armor <= 0) {
+            return 0xA0A0A0;
+        }
+        if (armor < 50) {
+            return 0x7AB8FF;
+        }
+        return 0x50E3FF;
+    }
+
+    private static int colorForFps(int fps) {
+        if (fps < 30) {
+            return 0xFF4D4D;
+        }
+        if (fps < 60) {
+            return 0xFFD166;
+        }
+        return 0x7DFF8A;
+    }
+
+    private static int colorForPing(int ping) {
+        if (ping < 0) {
+            return 0xA0A0A0;
+        }
+        if (ping < 60) {
+            return 0x7DFF8A;
+        }
+        if (ping < 120) {
+            return 0xFFD166;
+        }
+        if (ping < 200) {
+            return 0xFF9A4D;
+        }
+        return 0xFF4D4D;
     }
 }
