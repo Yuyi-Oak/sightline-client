@@ -82,6 +82,14 @@ public final class ClientHotkeys {
         return hudOpacityAlpha;
     }
 
+    public static String hudModeTranslationKey() {
+        return hudCompact ? "hud.sightline.hud_mode.compact" : "hud.sightline.hud_mode.full";
+    }
+
+    public static String hudAnchorTranslationKey() {
+        return translationFor(hudAnchor);
+    }
+
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.registerCategory(CATEGORY);
         event.register(TOGGLE_HUD);
@@ -146,7 +154,7 @@ public final class ClientHotkeys {
             minecraft.gui.setOverlayMessage(
                 Component.translatable(
                     "hud.sightline.hud_mode",
-                    Component.translatable(hudCompact ? "hud.sightline.hud_mode.compact" : "hud.sightline.hud_mode.full")
+                    Component.translatable(hudModeTranslationKey())
                 ),
                 false
             );

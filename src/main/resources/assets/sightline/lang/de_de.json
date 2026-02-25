@@ -17,6 +17,7 @@
   "hud.sightline.hud_anchor.top_right": "Oben rechts",
   "hud.sightline.hud_anchor.bottom_left": "Unten links",
   "hud.sightline.hud_anchor.bottom_right": "Unten rechts",
+  "hud.sightline.layout": "Modus: %s | Pos: %s | Opaz.: %s%%",
   "hud.sightline.opacity": "HUD-Deckkraft: %s%%",
   "key.sightline.toggle_hud": "CSMC HUD umschalten",
   "key.sightline.toggle_view": "Kameraansicht wechseln",

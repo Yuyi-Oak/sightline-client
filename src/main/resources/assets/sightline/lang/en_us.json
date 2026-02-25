@@ -17,6 +17,7 @@
   "hud.sightline.hud_anchor.top_right": "Top Right",
   "hud.sightline.hud_anchor.bottom_left": "Bottom Left",
   "hud.sightline.hud_anchor.bottom_right": "Bottom Right",
+  "hud.sightline.layout": "Mode: %s | Pos: %s | Op: %s%%",
   "hud.sightline.opacity": "HUD Opacity: %s%%",
   "key.sightline.toggle_hud": "Toggle CSMC HUD",
   "key.sightline.toggle_view": "Cycle Camera View",

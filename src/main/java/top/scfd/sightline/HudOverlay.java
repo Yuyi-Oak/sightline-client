@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 public final class HudOverlay {
     private static final int PANEL_MARGIN = 8;
     private static final int PANEL_WIDTH = 140;
-    private static final int PANEL_HEIGHT_FULL = 58;
+    private static final int PANEL_HEIGHT_FULL = 68;
     private static final int PANEL_HEIGHT_COMPACT = 34;
 
     private HudOverlay() {
@@ -86,6 +86,20 @@ public final class HudOverlay {
             panelX + 4,
             panelY + 44,
             colorForPing(ping),
+            false
+        );
+        int opacityPercent = (int) Math.round((ClientHotkeys.hudOpacityAlpha() / 255.0) * 100.0);
+        gui.drawString(
+            minecraft.font,
+            Component.translatable(
+                "hud.sightline.layout",
+                Component.translatable(ClientHotkeys.hudModeTranslationKey()),
+                Component.translatable(ClientHotkeys.hudAnchorTranslationKey()),
+                opacityPercent
+            ),
+            panelX + 4,
+            panelY + 54,
+            0xD5D5D5,
             false
         );
     }

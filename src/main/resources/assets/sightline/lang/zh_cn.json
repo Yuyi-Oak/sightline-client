@@ -17,6 +17,7 @@
   "hud.sightline.hud_anchor.top_right": "右上",
   "hud.sightline.hud_anchor.bottom_left": "左下",
   "hud.sightline.hud_anchor.bottom_right": "右下",
+  "hud.sightline.layout": "模式: %s | 位置: %s | 透明: %s%%",
   "hud.sightline.opacity": "HUD 不透明度: %s%%",
   "key.sightline.toggle_hud": "切换 CSMC HUD",
   "key.sightline.toggle_view": "切换视角",

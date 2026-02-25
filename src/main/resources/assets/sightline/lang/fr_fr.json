@@ -17,6 +17,7 @@
   "hud.sightline.hud_anchor.top_right": "Haut droite",
   "hud.sightline.hud_anchor.bottom_left": "Bas gauche",
   "hud.sightline.hud_anchor.bottom_right": "Bas droite",
+  "hud.sightline.layout": "Mode : %s | Position : %s | Opac.: %s%%",
   "hud.sightline.opacity": "Opacité HUD : %s%%",
   "key.sightline.toggle_hud": "Afficher/Masquer le HUD CSMC",
   "key.sightline.toggle_view": "Changer la vue de caméra",
