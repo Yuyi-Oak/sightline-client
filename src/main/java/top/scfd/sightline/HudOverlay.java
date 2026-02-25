@@ -3,6 +3,8 @@ package top.scfd.sightline;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,6 +18,7 @@ public final class HudOverlay {
     private static final int PANEL_WIDTH = 156;
     private static final int PANEL_HEIGHT_FULL = 90;
     private static final int PANEL_HEIGHT_COMPACT = 56;
+    private static final int PANEL_LINE_HEIGHT = 10;
     private static final Pattern AMMO_PATTERN = Pattern.compile(".*\\[(\\d+)/(\\d+)]\\s*$");
 
     private HudOverlay() {
@@ -38,8 +41,12 @@ public final class HudOverlay {
         HandHudState hand = resolveHandState(minecraft);
         AmmoState ammo = hand.ammo();
         WeaponState weapon = hand.weapon();
+        Component spectatorLine = spectatorLine(minecraft);
         boolean compact = ClientHotkeys.isHudCompact();
         int panelHeight = compact ? PANEL_HEIGHT_COMPACT : PANEL_HEIGHT_FULL;
+        if (spectatorLine != null) {
+            panelHeight += PANEL_LINE_HEIGHT;
+        }
         int guiWidth = minecraft.getWindow().getGuiScaledWidth();
         int guiHeight = minecraft.getWindow().getGuiScaledHeight();
         int panelX = switch (ClientHotkeys.hudAnchor()) {
@@ -95,6 +102,16 @@ public final class HudOverlay {
                 colorForAmmo(ammo),
                 false
             );
+            if (spectatorLine != null) {
+                gui.drawString(
+                    minecraft.font,
+                    spectatorLine,
+                    panelX + 4,
+                    panelY + 54,
+                    0x7EE6FF,
+                    false
+                );
+            }
             return;
         }
         gui.drawString(
@@ -143,7 +160,31 @@ public final class HudOverlay {
             0xD5D5D5,
             false
         );
+        if (spectatorLine != null) {
+            gui.drawString(
+                minecraft.font,
+                spectatorLine,
+                panelX + 4,
+                panelY + 84,
+                0x7EE6FF,
+                false
+            );
+        }
 
+    }
+
+    private static Component spectatorLine(Minecraft minecraft) {
+        if (minecraft.player == null || !minecraft.player.isSpectator()) {
+            return null;
+        }
+        Entity camera = minecraft.getCameraEntity();
+        if (camera == null || camera == minecraft.player) {
+            return Component.translatable("hud.sightline.spectator.free");
+        }
+        if (camera instanceof Player targetPlayer) {
+            return Component.translatable("hud.sightline.spectator.player", targetPlayer.getName());
+        }
+        return Component.translatable("hud.sightline.spectator.entity", camera.getName());
     }
 
     private static int resolvePing(Minecraft minecraft) {
