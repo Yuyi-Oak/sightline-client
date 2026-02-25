@@ -18,8 +18,10 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - HUD opacity hotkeys: `U`/`I` (decrease/increase opacity).
 - Full HUD mode now includes a layout line (mode, anchor, opacity).
 - HUD now shows current spectating target while in spectator mode (free camera/player/entity).
+- HUD panel width now auto-expands for long weapon/spectator labels (with sane max width cap).
 - HUD layout reset hotkey: `O` (resets mode, position, opacity).
 - Reticle toggle hotkey: `M`.
+- Reticle rendering is suppressed in spectator mode.
 - Reticle gap dynamically expands while moving or airborne.
 - Reticle now shifts to warning colors on low/empty magazine when ammo data is available.
 - Full HUD now reads weapon ammo from CSMC item names (e.g., `[30/90]`) and renders `Ammo: mag/reserve`.

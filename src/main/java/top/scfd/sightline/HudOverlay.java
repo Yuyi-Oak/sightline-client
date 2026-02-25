@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 @EventBusSubscriber(modid = SightlineClient.MOD_ID, value = Dist.CLIENT)
 public final class HudOverlay {
     private static final int PANEL_MARGIN = 8;
-    private static final int PANEL_WIDTH = 156;
+    private static final int PANEL_WIDTH_BASE = 156;
+    private static final int PANEL_WIDTH_MAX = 256;
     private static final int PANEL_HEIGHT_FULL = 90;
     private static final int PANEL_HEIGHT_COMPACT = 56;
     private static final int PANEL_LINE_HEIGHT = 10;
@@ -47,11 +48,21 @@ public final class HudOverlay {
         if (spectatorLine != null) {
             panelHeight += PANEL_LINE_HEIGHT;
         }
+        int opacityPercent = (int) Math.round((ClientHotkeys.hudOpacityAlpha() / 255.0) * 100.0);
+        Component weaponLine = Component.translatable("hud.sightline.weapon", weapon.label());
+        Component ammoLine = ammo.asComponent();
+        Component layoutLine = Component.translatable(
+            "hud.sightline.layout",
+            Component.translatable(ClientHotkeys.hudModeTranslationKey()),
+            Component.translatable(ClientHotkeys.hudAnchorTranslationKey()),
+            opacityPercent
+        );
+        int panelWidth = resolvePanelWidth(minecraft, compact, weaponLine, ammoLine, layoutLine, spectatorLine);
         int guiWidth = minecraft.getWindow().getGuiScaledWidth();
         int guiHeight = minecraft.getWindow().getGuiScaledHeight();
         int panelX = switch (ClientHotkeys.hudAnchor()) {
             case TOP_LEFT, BOTTOM_LEFT -> PANEL_MARGIN;
-            case TOP_RIGHT, BOTTOM_RIGHT -> Math.max(PANEL_MARGIN, guiWidth - PANEL_WIDTH - PANEL_MARGIN);
+            case TOP_RIGHT, BOTTOM_RIGHT -> Math.max(PANEL_MARGIN, guiWidth - panelWidth - PANEL_MARGIN);
         };
         int panelY = switch (ClientHotkeys.hudAnchor()) {
             case TOP_LEFT, TOP_RIGHT -> PANEL_MARGIN;
@@ -63,8 +74,8 @@ public final class HudOverlay {
         int headerColor = (headerAlpha << 24) | 0x202020;
 
         var gui = event.getGuiGraphics();
-        gui.fill(panelX, panelY, panelX + PANEL_WIDTH, panelY + panelHeight, panelColor);
-        gui.fill(panelX, panelY, panelX + PANEL_WIDTH, panelY + 10, headerColor);
+        gui.fill(panelX, panelY, panelX + panelWidth, panelY + panelHeight, panelColor);
+        gui.fill(panelX, panelY, panelX + panelWidth, panelY + 10, headerColor);
         gui.drawString(minecraft.font, Component.translatable("hud.csmc.title"), panelX + 4, panelY + 2, 0xFFFFFF, false);
         gui.drawString(
             minecraft.font,
@@ -88,7 +99,7 @@ public final class HudOverlay {
         if (compact) {
             gui.drawString(
                 minecraft.font,
-                Component.translatable("hud.sightline.weapon", weapon.label()),
+                weaponLine,
                 panelX + 4,
                 panelY + 34,
                 colorForWeapon(weapon),
@@ -96,7 +107,7 @@ public final class HudOverlay {
             );
             gui.drawString(
                 minecraft.font,
-                ammo.asComponent(),
+                ammoLine,
                 panelX + 4,
                 panelY + 44,
                 colorForAmmo(ammo),
@@ -116,7 +127,7 @@ public final class HudOverlay {
         }
         gui.drawString(
             minecraft.font,
-            Component.translatable("hud.sightline.weapon", weapon.label()),
+            weaponLine,
             panelX + 4,
             panelY + 34,
             colorForWeapon(weapon),
@@ -140,21 +151,15 @@ public final class HudOverlay {
         );
         gui.drawString(
             minecraft.font,
-            ammo.asComponent(),
+            ammoLine,
             panelX + 4,
             panelY + 64,
             colorForAmmo(ammo),
             false
         );
-        int opacityPercent = (int) Math.round((ClientHotkeys.hudOpacityAlpha() / 255.0) * 100.0);
         gui.drawString(
             minecraft.font,
-            Component.translatable(
-                "hud.sightline.layout",
-                Component.translatable(ClientHotkeys.hudModeTranslationKey()),
-                Component.translatable(ClientHotkeys.hudAnchorTranslationKey()),
-                opacityPercent
-            ),
+            layoutLine,
             panelX + 4,
             panelY + 74,
             0xD5D5D5,
@@ -171,6 +176,26 @@ public final class HudOverlay {
             );
         }
 
+    }
+
+    private static int resolvePanelWidth(
+        Minecraft minecraft,
+        boolean compact,
+        Component weaponLine,
+        Component ammoLine,
+        Component layoutLine,
+        Component spectatorLine
+    ) {
+        int width = PANEL_WIDTH_BASE;
+        width = Math.max(width, minecraft.font.width(weaponLine) + 8);
+        width = Math.max(width, minecraft.font.width(ammoLine) + 8);
+        if (!compact) {
+            width = Math.max(width, minecraft.font.width(layoutLine) + 8);
+        }
+        if (spectatorLine != null) {
+            width = Math.max(width, minecraft.font.width(spectatorLine) + 8);
+        }
+        return Math.min(PANEL_WIDTH_MAX, width);
     }
 
     private static Component spectatorLine(Minecraft minecraft) {
@@ -298,7 +323,7 @@ public final class HudOverlay {
         net.minecraft.client.gui.GuiGraphics gui,
         AmmoState ammo
     ) {
-        if (minecraft.player == null) {
+        if (minecraft.player == null || minecraft.player.isSpectator()) {
             return;
         }
         var velocity = minecraft.player.getDeltaMovement();
