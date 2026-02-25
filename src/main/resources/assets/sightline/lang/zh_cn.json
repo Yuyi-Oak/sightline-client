@@ -3,6 +3,8 @@
   "hud.csmc.title": "CSMC HUD",
   "hud.sightline.health": "生命值: %s",
   "hud.sightline.armor": "护甲: %s",
+  "hud.sightline.ammo": "弹药: %s/%s",
+  "hud.sightline.ammo.none": "弹药: --/--",
   "hud.sightline.fps": "帧率: %s",
   "hud.sightline.ping": "延迟: %s ms",
   "hud.sightline.view_mode": "视角: %s",

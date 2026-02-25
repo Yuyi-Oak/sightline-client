@@ -3,6 +3,8 @@
   "hud.csmc.title": "CSMC HUD",
   "hud.sightline.health": "HP: %s",
   "hud.sightline.armor": "Armor: %s",
+  "hud.sightline.ammo": "Ammo: %s/%s",
+  "hud.sightline.ammo.none": "Ammo: --/--",
   "hud.sightline.fps": "FPS: %s",
   "hud.sightline.ping": "Ping: %s ms",
   "hud.sightline.view_mode": "View: %s",

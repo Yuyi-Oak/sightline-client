@@ -7,13 +7,16 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @EventBusSubscriber(modid = SightlineClient.MOD_ID, value = Dist.CLIENT)
 public final class HudOverlay {
     private static final int PANEL_MARGIN = 8;
-    private static final int PANEL_WIDTH = 140;
-    private static final int PANEL_HEIGHT_FULL = 68;
+    private static final int PANEL_WIDTH = 156;
+    private static final int PANEL_HEIGHT_FULL = 78;
     private static final int PANEL_HEIGHT_COMPACT = 34;
+    private static final Pattern AMMO_PATTERN = Pattern.compile(".*\\[(\\d+)/(\\d+)]\\s*$");
 
     private HudOverlay() {
     }
@@ -32,6 +35,7 @@ public final class HudOverlay {
         int health = (int) Math.ceil(minecraft.player.getHealth());
         int maxHealth = (int) Math.ceil(minecraft.player.getMaxHealth());
         int armor = minecraft.player.getArmorValue();
+        AmmoState ammo = resolveAmmo(minecraft);
         boolean compact = ClientHotkeys.isHudCompact();
         int panelHeight = compact ? PANEL_HEIGHT_COMPACT : PANEL_HEIGHT_FULL;
         int guiWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -91,6 +95,14 @@ public final class HudOverlay {
             colorForPing(ping),
             false
         );
+        gui.drawString(
+            minecraft.font,
+            ammo.asComponent(),
+            panelX + 4,
+            panelY + 54,
+            colorForAmmo(ammo),
+            false
+        );
         int opacityPercent = (int) Math.round((ClientHotkeys.hudOpacityAlpha() / 255.0) * 100.0);
         gui.drawString(
             minecraft.font,
@@ -101,7 +113,7 @@ public final class HudOverlay {
                 opacityPercent
             ),
             panelX + 4,
-            panelY + 54,
+            panelY + 64,
             0xD5D5D5,
             false
         );
@@ -166,6 +178,37 @@ public final class HudOverlay {
         return 0xFF4D4D;
     }
 
+    private static int colorForAmmo(AmmoState ammo) {
+        if (!ammo.available()) {
+            return 0xA0A0A0;
+        }
+        if (ammo.magazine() <= 0) {
+            return 0xFF4D4D;
+        }
+        if (ammo.magazine() <= 5) {
+            return 0xFFD166;
+        }
+        return 0xFFFFFF;
+    }
+
+    private static AmmoState resolveAmmo(Minecraft minecraft) {
+        if (minecraft.player == null) {
+            return AmmoState.unavailable();
+        }
+        String name = minecraft.player.getMainHandItem().getHoverName().getString();
+        Matcher matcher = AMMO_PATTERN.matcher(name);
+        if (!matcher.matches()) {
+            return AmmoState.unavailable();
+        }
+        try {
+            int mag = Integer.parseInt(matcher.group(1));
+            int reserve = Integer.parseInt(matcher.group(2));
+            return new AmmoState(true, mag, reserve);
+        } catch (NumberFormatException ignored) {
+            return AmmoState.unavailable();
+        }
+    }
+
     private static void drawReticle(Minecraft minecraft, int guiWidth, int guiHeight, net.minecraft.client.gui.GuiGraphics gui) {
         if (minecraft.player == null) {
             return;
@@ -186,5 +229,18 @@ public final class HudOverlay {
         gui.fill(centerX + gap, centerY, centerX + gap + length, centerY + 1, color);
         gui.fill(centerX, centerY - gap - length, centerX + 1, centerY - gap, color);
         gui.fill(centerX, centerY + gap, centerX + 1, centerY + gap + length, color);
+    }
+
+    private record AmmoState(boolean available, int magazine, int reserve) {
+        private static AmmoState unavailable() {
+            return new AmmoState(false, 0, 0);
+        }
+
+        private Component asComponent() {
+            if (!available) {
+                return Component.translatable("hud.sightline.ammo.none");
+            }
+            return Component.translatable("hud.sightline.ammo", magazine, reserve);
+        }
     }
 }
