@@ -17,4 +17,5 @@ This client is optional. The server plugin runs without it, but enabling it impr
 - HUD position hotkey: `K` (top-left -> top-right -> bottom-right -> bottom-left).
 - HUD opacity hotkeys: `U`/`I` (decrease/increase opacity).
 - Full HUD mode now includes a layout line (mode, anchor, opacity).
+- HUD layout reset hotkey: `O` (resets mode, position, opacity).
 - Locale bundles: `en_us`, `zh_cn`, `ru_ru`, `fr_fr`, `de_de`.

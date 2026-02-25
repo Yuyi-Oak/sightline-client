@@ -18,6 +18,7 @@
   "hud.sightline.hud_anchor.bottom_left": "Bas gauche",
   "hud.sightline.hud_anchor.bottom_right": "Bas droite",
   "hud.sightline.layout": "Mode : %s | Position : %s | Opac.: %s%%",
+  "hud.sightline.layout_reset": "Disposition HUD réinitialisée",
   "hud.sightline.opacity": "Opacité HUD : %s%%",
   "key.sightline.toggle_hud": "Afficher/Masquer le HUD CSMC",
   "key.sightline.toggle_view": "Changer la vue de caméra",
@@ -25,5 +26,6 @@
   "key.sightline.toggle_hud_anchor": "Changer la position du HUD",
   "key.sightline.hud_opacity_down": "Réduire l'opacité du HUD",
   "key.sightline.hud_opacity_up": "Augmenter l'opacité du HUD",
+  "key.sightline.hud_layout_reset": "Réinitialiser la disposition HUD",
   "key.category.sightline.sightline": "Sightline"
 }
