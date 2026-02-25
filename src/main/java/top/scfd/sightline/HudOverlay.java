@@ -35,8 +35,9 @@ public final class HudOverlay {
         int health = (int) Math.ceil(minecraft.player.getHealth());
         int maxHealth = (int) Math.ceil(minecraft.player.getMaxHealth());
         int armor = minecraft.player.getArmorValue();
-        AmmoState ammo = resolveAmmo(minecraft);
-        WeaponState weapon = resolveWeapon(minecraft);
+        HandHudState hand = resolveHandState(minecraft);
+        AmmoState ammo = hand.ammo();
+        WeaponState weapon = hand.weapon();
         boolean compact = ClientHotkeys.isHudCompact();
         int panelHeight = compact ? PANEL_HEIGHT_COMPACT : PANEL_HEIGHT_FULL;
         int guiWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -212,34 +213,33 @@ public final class HudOverlay {
         return weapon.available() ? 0xFFFFFF : 0xA0A0A0;
     }
 
-    private static AmmoState resolveAmmo(Minecraft minecraft) {
-        if (minecraft.player == null) {
-            return AmmoState.unavailable();
-        }
-        String name = minecraft.player.getMainHandItem().getHoverName().getString();
-        Matcher matcher = AMMO_PATTERN.matcher(name);
-        if (!matcher.matches()) {
-            return AmmoState.unavailable();
-        }
-        try {
-            int mag = Integer.parseInt(matcher.group(1));
-            int reserve = Integer.parseInt(matcher.group(2));
-            return new AmmoState(true, mag, reserve);
-        } catch (NumberFormatException ignored) {
-            return AmmoState.unavailable();
-        }
-    }
-
-    private static WeaponState resolveWeapon(Minecraft minecraft) {
+    private static HandHudState resolveHandState(Minecraft minecraft) {
         if (minecraft.player == null || minecraft.player.getMainHandItem().isEmpty()) {
-            return WeaponState.unavailable();
+            return HandHudState.empty();
         }
         String rawName = minecraft.player.getMainHandItem().getHoverName().getString();
-        String withoutAmmo = rawName.replaceAll("\\s*\\[(\\d+)/(\\d+)]\\s*$", "").trim();
-        if (withoutAmmo.isBlank()) {
+        Matcher matcher = AMMO_PATTERN.matcher(rawName);
+        if (matcher.matches()) {
+            try {
+                int mag = Integer.parseInt(matcher.group(1));
+                int reserve = Integer.parseInt(matcher.group(2));
+                String weaponName = rawName.substring(0, matcher.start()).trim();
+                WeaponState weapon = weaponName.isBlank()
+                    ? WeaponState.unavailable()
+                    : new WeaponState(true, weaponName);
+                return new HandHudState(new AmmoState(true, mag, reserve), weapon);
+            } catch (NumberFormatException ignored) {
+                return new HandHudState(AmmoState.unavailable(), weaponFromRawName(rawName));
+            }
+        }
+        return new HandHudState(AmmoState.unavailable(), weaponFromRawName(rawName));
+    }
+
+    private static WeaponState weaponFromRawName(String rawName) {
+        if (rawName == null || rawName.isBlank()) {
             return WeaponState.unavailable();
         }
-        return new WeaponState(true, withoutAmmo);
+        return new WeaponState(true, rawName.trim());
     }
 
     private static void drawReticle(
@@ -297,6 +297,12 @@ public final class HudOverlay {
     private record WeaponState(boolean available, String label) {
         private static WeaponState unavailable() {
             return new WeaponState(false, "--");
+        }
+    }
+
+    private record HandHudState(AmmoState ammo, WeaponState weapon) {
+        private static HandHudState empty() {
+            return new HandHudState(AmmoState.unavailable(), WeaponState.unavailable());
         }
     }
 }
