@@ -63,8 +63,15 @@ public final class ClientHotkeys {
         GLFW.GLFW_KEY_O,
         CATEGORY
     );
+    private static final KeyMapping TOGGLE_RETICLE = new KeyMapping(
+        "key.sightline.toggle_reticle",
+        InputConstants.Type.KEYSYM,
+        GLFW.GLFW_KEY_M,
+        CATEGORY
+    );
 
     private static boolean hudEnabled = true;
+    private static boolean reticleEnabled = true;
     private static boolean hudCompact;
     private static HudAnchor hudAnchor = HudAnchor.TOP_LEFT;
     private static final int DEFAULT_HUD_OPACITY_ALPHA = 0x88;
@@ -89,6 +96,10 @@ public final class ClientHotkeys {
         return hudOpacityAlpha;
     }
 
+    public static boolean isReticleEnabled() {
+        return reticleEnabled;
+    }
+
     public static String hudModeTranslationKey() {
         return hudCompact ? "hud.sightline.hud_mode.compact" : "hud.sightline.hud_mode.full";
     }
@@ -106,6 +117,7 @@ public final class ClientHotkeys {
         event.register(HUD_OPACITY_DOWN);
         event.register(HUD_OPACITY_UP);
         event.register(HUD_LAYOUT_RESET);
+        event.register(TOGGLE_RETICLE);
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -129,6 +141,9 @@ public final class ClientHotkeys {
         }
         while (HUD_LAYOUT_RESET.consumeClick()) {
             resetHudLayout();
+        }
+        while (TOGGLE_RETICLE.consumeClick()) {
+            toggleReticle();
         }
     }
 
@@ -220,6 +235,20 @@ public final class ClientHotkeys {
         hudOpacityAlpha = DEFAULT_HUD_OPACITY_ALPHA;
         if (minecraft.gui != null) {
             minecraft.gui.setOverlayMessage(Component.translatable("hud.sightline.layout_reset"), false);
+        }
+    }
+
+    private static void toggleReticle() {
+        Minecraft minecraft = Minecraft.getInstance();
+        reticleEnabled = !reticleEnabled;
+        if (minecraft.gui != null) {
+            minecraft.gui.setOverlayMessage(
+                Component.translatable(
+                    "hud.sightline.reticle",
+                    Component.translatable(reticleEnabled ? "hud.sightline.reticle.on" : "hud.sightline.reticle.off")
+                ),
+                false
+            );
         }
     }
 }

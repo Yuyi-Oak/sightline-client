@@ -102,6 +102,10 @@ public final class HudOverlay {
             0xD5D5D5,
             false
         );
+
+        if (ClientHotkeys.isReticleEnabled()) {
+            drawReticle(guiWidth, guiHeight, gui);
+        }
     }
 
     private static int resolvePing(Minecraft minecraft) {
@@ -160,5 +164,15 @@ public final class HudOverlay {
             return 0xFF9A4D;
         }
         return 0xFF4D4D;
+    }
+
+    private static void drawReticle(int guiWidth, int guiHeight, net.minecraft.client.gui.GuiGraphics gui) {
+        int centerX = guiWidth / 2;
+        int centerY = guiHeight / 2;
+        int color = 0xCCFFFFFF;
+        gui.fill(centerX - 3, centerY, centerX - 1, centerY + 1, color);
+        gui.fill(centerX + 1, centerY, centerX + 3, centerY + 1, color);
+        gui.fill(centerX, centerY - 3, centerX + 1, centerY - 1, color);
+        gui.fill(centerX, centerY + 1, centerX + 1, centerY + 3, color);
     }
 }
